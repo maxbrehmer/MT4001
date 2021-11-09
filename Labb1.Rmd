@@ -1,0 +1,7 @@
+---
+title: "Labb1"
+author: "Esma Özdolap & Max Brehmer"
+date: 'r Sys.Date()'
+output: pdf_document
+---
+
