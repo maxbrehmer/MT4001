@@ -1,7 +1,27 @@
 ---
-title: "Labb1"
+title: "Laboration 1"
 author: "Esma Özdolap & Max Brehmer"
-date: 'r Sys.Date()'
-output: pdf_document
+date: "`r Sys.Date()`"
+output:
+  pdf_document : default
+  html_document:
+    fig_caption : yes
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Sammanfattning
+I denna laboration kommer data att analyseras och observeras ifall data kommer från en normalfördelning.
+Bland annat kommer man kolla på normalfördelad data, likformig fördelad data och exponentialfördelad data.
+Utöver det ska verklig datamaterial undersökas med grafiska metoder genom spridningsdiagram som kommer att ge oss en uppfattning av beroende mellan variabler på ett bra sätt. 
+
+# Uppgift 1
+Text. Använd underrubriker för delfrågor om du tycker det är motiverat.
+
+# Uppgift 2
+Mer text. Använd underrubriker för delfrågor om du tycker det är motiverat.
+
+Et cetera om det är fler än 2 uppgifter.
