@@ -15,13 +15,114 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Sammanfattning
 I denna laboration kommer data att analyseras och observeras ifall data kommer från en normalfördelning.
+
 Bland annat kommer man kolla på normalfördelad data, likformig fördelad data och exponentialfördelad data.
+
 Utöver det ska verklig datamaterial undersökas med grafiska metoder genom spridningsdiagram som kommer att ge oss en uppfattning av beroende mellan variabler på ett bra sätt. 
-
+ 
 # Uppgift 1
-Text. Använd underrubriker för delfrågor om du tycker det är motiverat.
 
+1. $$ D(X) = \frac{1}{a} $$
+
+2. $$ \alpha = a(\frac{\sqrt{12}{2} + 1) $$
+$$ \beta = a(\frac{\sqrt{12}}{2} - 1) $$
+ 
 # Uppgift 2
-Mer text. Använd underrubriker för delfrågor om du tycker det är motiverat.
+ 
+Den minsta stickprovsstorlek som behövs för att fördelningen skall avslöja sig som en normal fördelning är () samt den minsta stickprovsstorleken för en icke-normal()
+ 
+# 2.1
+```{r, fig.cap = " "}
+set.seed(20011203) # fyll i ditt egna födelsedatum. Om ni jobbar i par, välj den enas.
+x1 <- rnorm(10, 1, 1)
+```
+ 
+```{r}
+hist(x1, prob = TRUE)
+x <- seq(from = 1, to = 100, length.out = 100)
+lines(x, dnorm(x, 1, 1))
+```
+ 
+```{r}
+# Boxplot: https://en.wikipedia.org/wiki/Box_plot
+boxplot(x1)
+# Normalfördelningsplot (Q-Q plot): https://en.wikipedia.org/wiki/Q%E2%80%93Q_plot
+qqnorm(x1)
+qqline(x1)
+```
+ 
+```{r}
+set.seed(19880210) # fyll i ditt egna födelsedatum. Om ni jobbar i par, välj den enas.
+x1 <- rnorm(10, 1, 1) # kommer att bli samma stickprov som ovan då vi har samma värde i set.seed
+x2 <- rnorm(10, 2, 2) # detta blir ett stickprov annorlunda från x1, likaså de nedan
+x3 <- rnorm(10, 3, 3)
+x4 <- rnorm(10, 4, 4)
+x5 <- rnorm(10, 5, 5)
+x6 <- rnorm(10, 6, 6)
+x7 <- rnorm(10, 7, 7)
+x8 <- rnorm(10, 8, 8)
+# osv (fyll i resten själv)
+```
+ 
+```{r}
+boxplot(x1, x2, x3, x4, x5, x6, x7, x8)
+ 
+old_par <- par(mfrow = c(2, 4)) # 2 rader, 4 kolonner
+hist(x1)
+hist(x2)
+hist(x3)
+hist(x4)
+hist(x5)
+hist(x6)
+hist(x7)
+hist(x8)
+# osv (fyll i resten själv)
+par(old_par) # säg åt R att sluta förvänta sig fler plottar till samma fönster
+```
 
-Et cetera om det är fler än 2 uppgifter.
+# 2.2 
+```{r}
+set.seed(20011203)
+
+runif(n, min, max) #n = stickprovsstorleken. max och min övre och undre gräns.
+
+u1
+u2
+u3
+u4
+u5
+
+```
+
+# 2.3
+
+```{r}
+
+set.seed(20011203)
+
+rexp(n,r) # n är stickprovsstorlek och r är intensiteten. 
+
+```
+
+# Uppgift 3
+
+```{r}
+plot(x, y)
+```
+
+```{r}
+data <- read.csv("olvinsprit.csv", header = TRUE)
+```
+
+```{r}
+land <- data$Land 
+beer <- data$beer 
+vin <- data$vin 
+sprit <- data$sprit
+````
+
+```{r}
+plot(beer, vin) # När du gör detta själv, ange passande axelrubrik etc
+````
+
+
