@@ -24,7 +24,8 @@ Utöver det ska verklig datamaterial undersökas med grafiska metoder genom spri
 
 1. $$ D(X) = \frac{1}{a} $$
 
-2. $$ \alpha = a(\frac{\sqrt{12}{2} + 1) $$
+2. $$ \alpha = a(-\frac{\sqrt{12}}{2}+1) $$
+
 $$ \beta = a(\frac{\sqrt{12}}{2} - 1) $$
  
 # Uppgift 2
@@ -32,20 +33,23 @@ $$ \beta = a(\frac{\sqrt{12}}{2} - 1) $$
 Den minsta stickprovsstorlek som behövs för att fördelningen skall avslöja sig som en normal fördelning är () samt den minsta stickprovsstorleken för en icke-normal()
  
 # 2.1
-```{r, fig.cap = " "}
+```{r}
 set.seed(20011203) # fyll i ditt egna födelsedatum. Om ni jobbar i par, välj den enas.
-x1 <- rnorm(10, 1, 1)
+x1 <- rnorm(100, 4, 1)
 ```
  
-```{r}
+```{r, fig.cap = " Stapeldiagram för N(4,1) "}
 hist(x1, prob = TRUE)
 x <- seq(from = 1, to = 100, length.out = 100)
-lines(x, dnorm(x, 1, 1))
+lines(x, dnorm(x, 4, 1))
 ```
  
-```{r}
+```{r, fig.cap = " Låddiagram för N(4,1) "}
 # Boxplot: https://en.wikipedia.org/wiki/Box_plot
 boxplot(x1)
+```
+
+```{r, fig.cap = " Normalfördelningsplot för N(4,1) "}
 # Normalfördelningsplot (Q-Q plot): https://en.wikipedia.org/wiki/Q%E2%80%93Q_plot
 qqnorm(x1)
 qqline(x1)
@@ -53,20 +57,22 @@ qqline(x1)
  
 ```{r}
 set.seed(19880210) # fyll i ditt egna födelsedatum. Om ni jobbar i par, välj den enas.
-x1 <- rnorm(10, 1, 1) # kommer att bli samma stickprov som ovan då vi har samma värde i set.seed
-x2 <- rnorm(10, 2, 2) # detta blir ett stickprov annorlunda från x1, likaså de nedan
-x3 <- rnorm(10, 3, 3)
-x4 <- rnorm(10, 4, 4)
-x5 <- rnorm(10, 5, 5)
-x6 <- rnorm(10, 6, 6)
-x7 <- rnorm(10, 7, 7)
-x8 <- rnorm(10, 8, 8)
+x1 <- rnorm(100, 4, 1) # kommer att bli samma stickprov som ovan då vi har samma värde i set.seed
+x2 <- rnorm(100, 4, 1) # detta blir ett stickprov annorlunda från x1, likaså de nedan
+x3 <- rnorm(100, 4, 1)
+x4 <- rnorm(100, 4, 1)
+x5 <- rnorm(100, 4, 1)
+x6 <- rnorm(100, 4, 1)
+x7 <- rnorm(100, 4, 1)
+x8 <- rnorm(100, 4, 1)
 # osv (fyll i resten själv)
 ```
  
-```{r}
+```{r, fig.cap = " 8st boxplottar för N(4,1) "}
 boxplot(x1, x2, x3, x4, x5, x6, x7, x8)
- 
+```
+
+```{r, fig.cap = " 8st histogram för N(4,1) "}
 old_par <- par(mfrow = c(2, 4)) # 2 rader, 4 kolonner
 hist(x1)
 hist(x2)
@@ -80,49 +86,79 @@ hist(x8)
 par(old_par) # säg åt R att sluta förvänta sig fler plottar till samma fönster
 ```
 
-# 2.2 
-```{r}
+Om stickprovsstorleken är mindre än 100 så är det svårt att avgöra visuellt om ett stickprov är normalfördelat.
+
+Vi anser att metoden som är bäst för att avgöra om ett stickprov är normal eller ej är normalfördelningsplotten dels för att varje observation är synligt i figuren, som gör det tydligt att se avvikande observationer men även formen för normalfördelningar är enkelt igenkännbar.
+
+# 2.2
+
+```{r, fig.cap = " histogram för 5 likformiga och 5 normalfördelade slumpvariabler"}
 set.seed(20011203)
 
-runif(n, min, max) #n = stickprovsstorleken. max och min övre och undre gräns.
+a = -4 * 3^{1/2}+4
+b = 4 * 3^{1/2}-4
 
-u1
-u2
-u3
-u4
-u5
+u1 <- runif(10, a, b)
+u2 <- runif(10, a, b)
+u3 <- runif(10, a, b)
+u4 <- runif(10, a, b)
+u5 <- runif(10, a, b)
+u6 <- rnorm(10, 4, 1)
+u7 <- rnorm(10, 4, 1)
+u8 <- rnorm(10, 4, 1)
+u9 <- rnorm(10, 4, 1)
+u10 <- rnorm(10, 4, 1)
 
+old_par <- par(mfrow = c(2, 5)) # 2 rader, 4 kolonner
+hist(u1)
+hist(u2)
+hist(u3)
+hist(u4)
+hist(u5)
+hist(u6)
+hist(u7)
+hist(u8)
+hist(u9)
+hist(u10)
+par(old_par) # säg åt R att sluta förvänta sig fler plottar till samma fönster
 ```
+
+```{r, fig.cap = " boxplottar för 5 likformiga och 5 normalfördelade slumpvariabler"}
+boxplot(u1, u2, u3, u4, u5, u6, u7, u8, u9, u10)
+```
+
+Om vi använder ett antal histogram så behövs minst 100 observationer för att urskilja de normalfördelade plottarna från de likformigt fördelade. Men om vi använder oss av boxplottar så räcker det med stickprovsstorlek 50.
+
+Låddiagrammen ger bäst uppfattning om en fördelning är normal.
 
 # 2.3
 
-```{r}
-
+```{r, fig.cap = " histogram för 4 exponentialfördelade och 4 normalfördelade slumpvariabler"}
 set.seed(20011203)
 
-rexp(n,r) # n är stickprovsstorlek och r är intensiteten. 
+v1 <- rexp(25, 1/4)
+v2 <- rexp(25, 1/4)
+v3 <- rexp(25, 1/4)
+v4 <- rexp(25, 1/4)
+v5 <- rnorm(25, 4, 1)
+v6 <- rnorm(25, 4, 1)
+v7 <- rnorm(25, 4, 1)
+v8 <- rnorm(25, 4, 1)
 
+old_par <- par(mfrow = c(2, 4)) # 2 rader, 4 kolonner
+hist(v1)
+hist(v2)
+hist(v3)
+hist(v4)
+hist(v5)
+hist(v6)
+hist(v7)
+hist(v8)
+par(old_par) # säg åt R att sluta förvänta sig fler plottar till samma fönster
 ```
 
-# Uppgift 3
-
-```{r}
-plot(x, y)
+```{r, fig.cap = " boxplottar för 5 likformiga och 5 normalfördelade slumpvariabler"}
+boxplot(v1, v2, v3, v4, v5, v6, v7, v8)
 ```
 
-```{r}
-data <- read.csv("olvinsprit.csv", header = TRUE)
-```
-
-```{r}
-land <- data$Land 
-beer <- data$beer 
-vin <- data$vin 
-sprit <- data$sprit
-````
-
-```{r}
-plot(beer, vin) # När du gör detta själv, ange passande axelrubrik etc
-````
-
-
+Histogrammen gör det tydligare att avslöja fördelningarna som normala och en bra nog stickprovsstorlek är 25 observationer. 
