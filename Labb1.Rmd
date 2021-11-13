@@ -96,18 +96,19 @@ Vi anser att metoden som är bäst för att avgöra om ett stickprov är normal 
 set.seed(20011203)
 
 a = -4 * 3^{1/2}+4
-b = 4 * 3^{1/2}-4
+b = 4 * 3^{1/2}+4
+s = 500
 
-u1 <- runif(10, a, b)
-u2 <- runif(10, a, b)
-u3 <- runif(10, a, b)
-u4 <- runif(10, a, b)
-u5 <- runif(10, a, b)
-u6 <- rnorm(10, 4, 1)
-u7 <- rnorm(10, 4, 1)
-u8 <- rnorm(10, 4, 1)
-u9 <- rnorm(10, 4, 1)
-u10 <- rnorm(10, 4, 1)
+u1 <- runif(s, a, b)
+u2 <- runif(s, a, b)
+u3 <- runif(s, a, b)
+u4 <- runif(s, a, b)
+u5 <- runif(s, a, b)
+u6 <- rnorm(s, 4, 1)
+u7 <- rnorm(s, 4, 1)
+u8 <- rnorm(s, 4, 1)
+u9 <- rnorm(s, 4, 1)
+u10 <- rnorm(s, 4, 1)
 
 old_par <- par(mfrow = c(2, 5)) # 2 rader, 4 kolonner
 hist(u1)
@@ -133,17 +134,19 @@ Låddiagrammen ger bäst uppfattning om en fördelning är normal.
 
 # 2.3
 
-```{r, fig.cap = " histogram för 4 exponentialfördelade och 4 normalfördelade slumpvariabler"}
+```{r, fig.cap = " histogram för 4 exponentialfördelade och 4 normalfördelade slumpvariabler", fig.pos = "H"}
 set.seed(20011203)
 
-v1 <- rexp(25, 1/4)
-v2 <- rexp(25, 1/4)
-v3 <- rexp(25, 1/4)
-v4 <- rexp(25, 1/4)
-v5 <- rnorm(25, 4, 1)
-v6 <- rnorm(25, 4, 1)
-v7 <- rnorm(25, 4, 1)
-v8 <- rnorm(25, 4, 1)
+s = 500
+
+v1 <- rexp(s, 1/4)
+v2 <- rexp(s, 1/4)
+v3 <- rexp(s, 1/4)
+v4 <- rexp(s, 1/4)
+v5 <- rnorm(s, 4, 1)
+v6 <- rnorm(s, 4, 1)
+v7 <- rnorm(s, 4, 1)
+v8 <- rnorm(s, 4, 1)
 
 old_par <- par(mfrow = c(2, 4)) # 2 rader, 4 kolonner
 hist(v1)
@@ -162,3 +165,26 @@ boxplot(v1, v2, v3, v4, v5, v6, v7, v8)
 ```
 
 Histogrammen gör det tydligare att avslöja fördelningarna som normala och en bra nog stickprovsstorlek är 25 observationer. 
+
+# Uppgift 3
+
+```{r message=FALSE}
+library(tidyverse)
+
+data <- read.csv("olvinsprit.csv", header = TRUE)
+
+land <- data$Land
+beer <- data$beer
+vin <- data$vin
+sprit <- data$sprit
+
+a <- ggplot(data=data, mapping=aes(x=beer, y=vin, colour=land, size=sprit)) + geom_point()
+a
+
+b <- ggplot(data, aes(sample=beer, colour=land)) +
+  stat_qq() +
+  stat_qq_line()
+```
+
+
+
