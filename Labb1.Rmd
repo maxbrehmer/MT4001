@@ -12,7 +12,6 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
 # Sammanfattning
 I denna laboration kommer data att analyseras och observeras ifall data kommer från en normalfördelning.
 
@@ -30,11 +29,9 @@ $$ \beta = a(\frac{\sqrt{12}}{2} - 1) $$
  
 # Uppgift 2
  
-Den minsta stickprovsstorlek som behövs för att fördelningen skall avslöja sig som en normal fördelning är () samt den minsta stickprovsstorleken för en icke-normal()
- 
 # 2.1
 ```{r}
-set.seed(20011203) # fyll i ditt egna födelsedatum. Om ni jobbar i par, välj den enas.
+set.seed(20011203)
 x1 <- rnorm(100, 4, 1)
 ```
  
@@ -56,15 +53,15 @@ qqline(x1)
 ```
  
 ```{r}
-set.seed(19880210) # fyll i ditt egna födelsedatum. Om ni jobbar i par, välj den enas.
-x1 <- rnorm(100, 4, 1) # kommer att bli samma stickprov som ovan då vi har samma värde i set.seed
-x2 <- rnorm(100, 4, 1) # detta blir ett stickprov annorlunda från x1, likaså de nedan
-x3 <- rnorm(100, 4, 1)
-x4 <- rnorm(100, 4, 1)
-x5 <- rnorm(100, 4, 1)
-x6 <- rnorm(100, 4, 1)
-x7 <- rnorm(100, 4, 1)
-x8 <- rnorm(100, 4, 1)
+set.seed(20011203) # fyll i ditt egna födelsedatum. Om ni jobbar i par, välj den enas.
+x1 <- rnorm(1000, 4, 1) # kommer att bli samma stickprov som ovan då vi har samma värde i set.seed
+x2 <- rnorm(1000, 4, 1) # detta blir ett stickprov annorlunda från x1, likaså de nedan
+x3 <- rnorm(1000, 4, 1)
+x4 <- rnorm(1000, 4, 1)
+x5 <- rnorm(1000, 4, 1)
+x6 <- rnorm(1000, 4, 1)
+x7 <- rnorm(1000, 4, 1)
+x8 <- rnorm(1000, 4, 1)
 # osv (fyll i resten själv)
 ```
  
@@ -86,18 +83,20 @@ hist(x8)
 par(old_par) # säg åt R att sluta förvänta sig fler plottar till samma fönster
 ```
 
-Om stickprovsstorleken är mindre än 100 så är det svårt att avgöra visuellt om ett stickprov är normalfördelat.
+Vi anser att en stickprovsstorlek på 1000 är bra nog för att avslöja fördelningarna som en normalfördelning. Tex ses det rätt tydligt i figur nr 5 att dessa är normalfördelade då vi har en stickprovsstorlek på 1000.
 
-Vi anser att metoden som är bäst för att avgöra om ett stickprov är normal eller ej är normalfördelningsplotten dels för att varje observation är synligt i figuren, som gör det tydligt att se avvikande observationer men även formen för normalfördelningar är enkelt igenkännbar.
+Metoden som är bäst för att avgöra om ett stickprov är normal eller ej är normalfördelad syns tydligast i QQ-plotten (figur 3) dels för att varje observation är synligt i figuren, som gör det tydligt att se avvikande observationer men även formen för normalfördelningar är enkelt igenkännbar med ögat. Endast ett få tal observationer avviker från den räta linjen, medans den stora majoriteten ligger tätt intill. Därmed kan vi genom denna plott med ögat se och observera att detta är en normalfördelning. 
+
+Däremot anses inte låddiagram ge oss en bra bild av vad som är normalfördelad (figur 2 och 4) eftersom att ett ensamt låddiagram är det svårt att avgöra karakträren på dess fördelning, medans om man vill jämföra flera olika former av distributioner kan den vara mer givande. Men i detta fall är det endas ett låddigaram och därmed svårt att dra en slutsats. 
 
 # 2.2
 
-```{r, fig.cap = " histogram för 5 likformiga och 5 normalfördelade slumpvariabler"}
+```{r, fig.cap = " histogram för 5 likformiga slumpvariabler"}
 set.seed(20011203)
 
 a = -4 * 3^{1/2}+4
 b = 4 * 3^{1/2}+4
-s = 500
+s = 1000
 
 u1 <- runif(s, a, b)
 u2 <- runif(s, a, b)
@@ -110,31 +109,32 @@ u8 <- rnorm(s, 4, 1)
 u9 <- rnorm(s, 4, 1)
 u10 <- rnorm(s, 4, 1)
 
-old_par <- par(mfrow = c(2, 5)) # 2 rader, 4 kolonner
+old_par <- par(mfrow = c(2, 5))
 hist(u1)
 hist(u2)
 hist(u3)
 hist(u4)
 hist(u5)
+par(old_par)
+```
+
+```{r, fig.cap = " histogram för 5 normalfördelade slumpvariabler"}
+old_par <- par(mfrow = c(2, 5))
 hist(u6)
 hist(u7)
 hist(u8)
 hist(u9)
 hist(u10)
-par(old_par) # säg åt R att sluta förvänta sig fler plottar till samma fönster
+par(old_par)
 ```
 
-```{r, fig.cap = " boxplottar för 5 likformiga och 5 normalfördelade slumpvariabler"}
-boxplot(u1, u2, u3, u4, u5, u6, u7, u8, u9, u10)
-```
+Vi kan tydligt se i figur 6 och 7 att dessa är likformigt- respektive normalfördelade när vi använder oss av 1000 stickprov. Ett mindre stickprov än det ger inte oss en bra uppfattning om vare sig normal eller likformigfördelning.
 
-Om vi använder ett antal histogram så behövs minst 100 observationer för att urskilja de normalfördelade plottarna från de likformigt fördelade. Men om vi använder oss av boxplottar så räcker det med stickprovsstorlek 50.
-
-Låddiagrammen ger bäst uppfattning om en fördelning är normal.
+Det som bäst ger oss en uppskattning om det är normalt respektive likformigt fördelat är histogram.
 
 # 2.3
 
-```{r, fig.cap = " histogram för 4 exponentialfördelade och 4 normalfördelade slumpvariabler", fig.pos = "H"}
+```{r, fig.cap = " histogram för 4 exponentialfördelade slumpvariabler", fig.pos = "H"}
 set.seed(20011203)
 
 s = 500
@@ -148,27 +148,30 @@ v6 <- rnorm(s, 4, 1)
 v7 <- rnorm(s, 4, 1)
 v8 <- rnorm(s, 4, 1)
 
-old_par <- par(mfrow = c(2, 4)) # 2 rader, 4 kolonner
+old_par <- par(mfrow = c(2, 4))
 hist(v1)
 hist(v2)
 hist(v3)
 hist(v4)
+par(old_par)
+```
+
+```{r, fig.cap = " histogram för 4 normalfördelade slumpvariabler", fig.pos = "H"}
+old_par <- par(mfrow = c(2, 4))
 hist(v5)
 hist(v6)
 hist(v7)
 hist(v8)
-par(old_par) # säg åt R att sluta förvänta sig fler plottar till samma fönster
+par(old_par)
 ```
 
-```{r, fig.cap = " boxplottar för 5 likformiga och 5 normalfördelade slumpvariabler"}
-boxplot(v1, v2, v3, v4, v5, v6, v7, v8)
-```
+Fördelningstyperna i figur 8 och 9 kan tydligt skilljas åt när stickprovsstorleken överstiger 500, det krävs alltså en mindre stickprovsstorlek när vi jämför exponentialfördelningar med normalfördelningar än jämförelsen med likformig fördelning.
 
-Histogrammen gör det tydligare att avslöja fördelningarna som normala och en bra nog stickprovsstorlek är 25 observationer. 
+Återigen ger histogrammen den bästa översikten för att jämföra fördelningarnas karaktär i figur 8 & 9.
 
 # Uppgift 3
 
-```{r message=FALSE}
+```{r, fig.cap = " Punktdiagram för öl- och vinkonsumtionen i olika länder" ,message=FALSE}
 library(tidyverse)
 
 data <- read.csv("olvinsprit.csv", header = TRUE)
@@ -178,13 +181,39 @@ beer <- data$beer
 vin <- data$vin
 sprit <- data$sprit
 
-a <- ggplot(data=data, mapping=aes(x=beer, y=vin, colour=land, size=sprit)) + geom_point()
+a <- ggplot(data=data, mapping=aes(x=beer, y=vin, colour=land, size=sprit)) +
+  geom_point()
 a
-
-b <- ggplot(data, aes(sample=beer, colour=land)) +
-  stat_qq() +
-  stat_qq_line()
 ```
 
+```{r, fig.cap = " Normalfördelningsplott för ölkonsumtion" ,message=FALSE}
+b <- ggplot(data, aes(sample=beer)) +
+  geom_qq() +
+  geom_qq_line() +
+  xlab("Teoretisk normalmängd") +
+  ylab("Datamängd för öl")
+b
+```
+
+```{r, fig.cap = " Normalfördelningsplott för vinkonsumtion" ,message=FALSE}
+c <- ggplot(data, aes(sample=vin)) +
+  geom_qq() +
+  geom_qq_line() +
+  xlab("Teoretisk normalmängd") +
+  ylab("Datamängd för vin")
+c
+```
+
+För att kunna se att en data kommer från normalfördelning, kollar vi på vin och öl konsumtionen för dig i två olika plottar(figur 11 respektive 12). Man kan dra slutsatsen om att den är normalfördelad ifall respektive del var och en för sig är normalfördelad. I figur 11 och 12 ser vi att båda delarna är normalfördelade och där av kan dra slutsatsen att data kan komma från en normalfördelning. 
+
+I figur 10 ser vi att Sverige är det näst mest ölkonsumerande landet i datamängden men ligger mer i mitten när det kommer till vinkonsumtionen. Sett till båda variablerna ligger är Sverige bland de länder som konsumerar mest alkohol.
+
+Sett till figuren ser vi att Sverige är något mer ölkonsumerande än vinkonsumerande, men är inte extremt åt något håll då vi svenskar dricker mycket av båda dryckerna.
+
+Irland är extremt åt öl-hållet då vi finner dem långt till höger på x-axeln men långt ner på y-axeln. Irländarna älskar alltså sin öl men är inte särskillt förtjusta i vin.
+
+Å andra sidan är Frankrike, Italien och Schweiz väldigt avvikande åt vin-hållet då vi finner dessa länder längst upp till vänster. Gemensamt för de länder som tycker om vin betydligt mer i förhållande till ölkonsumtionen än övriga länder är att de är medelhavsländer med mycket turism.
+
+I figuren syns det att länder med en högre konsumtion av ett slag av alkohol också konsumerar mer av den andra typen och likaså medför en lägre konsumtion av den ena typen en lägre konsumtion av den andra.
 
 
