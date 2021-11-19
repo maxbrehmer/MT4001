@@ -13,11 +13,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Sammanfattning
-I denna laboration kommer data att analyseras och observeras ifall data kommer från en normalfördelning.
 
-Bland annat kommer man kolla på normalfördelad data, likformig fördelad data och exponentialfördelad data.
-
-Utöver det ska verklig datamaterial undersökas med grafiska metoder genom spridningsdiagram som kommer att ge oss en uppfattning av beroende mellan variabler på ett bra sätt. 
+I denna labb ska vi undersöka olika stickprovsstorlekar som ger oss en bra uppfattning på fördelningstyp för en viss figur samt undersöka olika grafer och se den som ger oss den bästa uppfattning om respektive fördelning. 
+Vi ska även undersöka data i flera variabler och därav dra en slutsats.
  
 # Uppgift 1
 
@@ -27,9 +25,11 @@ Utöver det ska verklig datamaterial undersökas med grafiska metoder genom spri
 
 $$ \beta = a(\frac{\sqrt{12}}{2} - 1) $$
  
-# Uppgift 2
  
-# 2.1
+# Uppgift 2.1
+
+För denna uppgift ska vi analysera hur många stickprov som behövs för att ge oss den bästa uppfattningen grafiskt om vad som är normalfördelad genom att grafiskt undersöka histogram och andra typer av statistiska figurer. 
+
 ```{r}
 set.seed(20011203)
 x1 <- rnorm(100, 4, 1)
@@ -89,20 +89,22 @@ Metoden som är bäst för att avgöra om ett stickprov är normal eller ej är 
 
 Däremot anses inte låddiagram ge oss en bra bild av vad som är normalfördelad (figur 2 och 4) eftersom att ett ensamt låddiagram är det svårt att avgöra karakträren på dess fördelning, medans om man vill jämföra flera olika former av distributioner kan den vara mer givande. Men i detta fall är det endas ett låddigaram och därmed svårt att dra en slutsats. 
 
-# 2.2
+# Uppgift 2.2
+
+För denna uppgift ska likformiga och normalfördelade slumpvariabler undersökas och frågan vi vill besvare är vilken stickprovsstorlek som krävs för att avgöra och figurerna är just likformigt- respektive normalfördelade. Våra värden på a och b är våra undra respektive övre gränser som kommer från uppgift 1. Vår undre gräns ges av $\alpha = a(-\frac{\sqrt{12}}{2}+1)$ och vår övre gräns  $\beta = a(\frac{\sqrt{12}}{2} - 1)$ Där a = 4.
 
 ```{r, fig.cap = " histogram för 5 likformiga slumpvariabler"}
 set.seed(20011203)
 
-a = -4 * 3^{1/2}+4
-b = 4 * 3^{1/2}+4
+alpha = -4 * 3^{1/2}+4
+beta = 4 * 3^{1/2}+4
 s = 1000
 
-u1 <- runif(s, a, b)
-u2 <- runif(s, a, b)
-u3 <- runif(s, a, b)
-u4 <- runif(s, a, b)
-u5 <- runif(s, a, b)
+u1 <- runif(s, alpha, beta)
+u2 <- runif(s, alpha, beta)
+u3 <- runif(s, alpha, beta)
+u4 <- runif(s, alpha, beta)
+u5 <- runif(s, alpha, beta)
 u6 <- rnorm(s, 4, 1)
 u7 <- rnorm(s, 4, 1)
 u8 <- rnorm(s, 4, 1)
@@ -132,12 +134,14 @@ Vi kan tydligt se i figur 6 och 7 att dessa är likformigt- respektive normalfö
 
 Det som bäst ger oss en uppskattning om det är normalt respektive likformigt fördelat är histogram.
 
-# 2.3
+# Uppgift 2.3
+
+För denna uppgift ska liknande observationer göras som i uppgift 2.2 fast denna gång ska vi jämföra och se hur exponentialfördelad data ser ut och vad den minsta stickprovsstorleken är för att kunna få en uppfattning av att något är exponentialfördelat. 
 
 ```{r, fig.cap = " histogram för 4 exponentialfördelade slumpvariabler", fig.pos = "H"}
 set.seed(20011203)
 
-s = 500
+s = 200
 
 v1 <- rexp(s, 1/4)
 v2 <- rexp(s, 1/4)
@@ -165,11 +169,15 @@ hist(v8)
 par(old_par)
 ```
 
-Fördelningstyperna i figur 8 och 9 kan tydligt skilljas åt när stickprovsstorleken överstiger 500, det krävs alltså en mindre stickprovsstorlek när vi jämför exponentialfördelningar med normalfördelningar än jämförelsen med likformig fördelning.
+Fördelningstyperna i figur 8 och 9 kan tydligt skilljas åt när stickprovsstorleken överstiger ca 200, det krävs alltså en mindre stickprovsstorlek när vi jämför exponentialfördelningar med normalfördelningar än jämförelsen med likformig fördelning.
 
 Återigen ger histogrammen den bästa översikten för att jämföra fördelningarnas karaktär i figur 8 & 9.
 
+Den generellla slutsatsen som kan dras av uppgift 2 är att mindre stickprov krävs för en exponentialfördelning jämfört med normal och likformig fördelning. 
+
 # Uppgift 3
+
+I denna uppgift ska verkligt datamaterial undersökas grafiskt som kommer att illusteraras mellan olika variabler på ett bra sätt. Data som kommer att observeras är genomsnittlig konsumtion av öl, vin och starksprit och där av dra slutsatser.
 
 ```{r, fig.cap = " Punktdiagram för öl- och vinkonsumtionen i olika länder" ,message=FALSE}
 library(tidyverse)
@@ -208,12 +216,12 @@ För att kunna se att en data kommer från normalfördelning, kollar vi på vin 
 
 I figur 10 ser vi att Sverige är det näst mest ölkonsumerande landet i datamängden men ligger mer i mitten när det kommer till vinkonsumtionen. Sett till båda variablerna ligger är Sverige bland de länder som konsumerar mest alkohol.
 
-Sett till figuren ser vi att Sverige är något mer ölkonsumerande än vinkonsumerande, men är inte extremt åt något håll då vi svenskar dricker mycket av båda dryckerna.
+Sett till figur 10 ser vi att Sverige är något mer ölkonsumerande än vinkonsumerande, men är inte extremt åt något håll då vi svenskar dricker mycket av båda dryckerna.
 
-Irland är extremt åt öl-hållet då vi finner dem långt till höger på x-axeln men långt ner på y-axeln. Irländarna älskar alltså sin öl men är inte särskillt förtjusta i vin.
+Irland är extremt åt öl-hållet då vi finner dem långt till höger på x-axeln men långt ner på y-axeln som kan ses i figur 10. Irländarna älskar alltså sin öl men är inte särskillt förtjusta i vin.
 
-Å andra sidan är Frankrike, Italien och Schweiz väldigt avvikande åt vin-hållet då vi finner dessa länder längst upp till vänster. Gemensamt för de länder som tycker om vin betydligt mer i förhållande till ölkonsumtionen än övriga länder är att de är medelhavsländer med mycket turism.
+Å andra sidan är Frankrike, Italien och Schweiz väldigt avvikande åt vin-hållet då vi finner dessa länder längst upp till vänster i figur nr 10. Gemensamt för de länder som tycker om vin betydligt mer i förhållande till ölkonsumtionen än övriga länder är att de är medelhavsländer med mycket turism.
 
-I figuren syns det att länder med en högre konsumtion av ett slag av alkohol också konsumerar mer av den andra typen och likaså medför en lägre konsumtion av den ena typen en lägre konsumtion av den andra.
+I figur 10 syns det att länder med en högre konsumtion av ett slag av alkohol också konsumerar mer av den andra typen och likaså medför en lägre konsumtion av den ena typen en lägre konsumtion av den andra.
 
 
