@@ -1,0 +1,203 @@
+---
+title: "lab3"
+author: "Max Brehmer & Esma Özdolap"
+date: '`r Sys.Date()`'
+output: pdf_document
+---
+```{r setup, include=FALSE}
+library(tidyverse)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+ 
+# Samanfattning
+ 
+I denna labb kommer enkel regression och korrelationsanlys användas för att studera egenskaer hos ett material som består av bivariata data.
+ 
+# Uppgift 1
+ 
+För uppgifterna i denna labb har filen temperatur.csv laddats ner som innehåller data över avvikelsen av jordens medeltemperatur mellan åren 1850-2007. Bland annat ska scartterplot och normalfördelningsplott skapas för att få en uppfattning om data ser linjärt ut.
+ 
+```{r, message=FALSE}
+df <- read_csv("data/temperatur.csv")
+```
+ 
+```{r, fig.cap = " Temperatur över tid "}
+ggplot(data = df, aes(x = year, y = globe)) +
+  geom_point() +
+  geom_line()
+ 
+```
+
+```{r, message=FALSE, fig.cap = " Linjär regression för temperatur över tid "}
+ggplot(data = df, aes(x = year, y = globe)) +
+  geom_point() +
+  geom_line() +
+  geom_smooth(method = "lm", se = FALSE)
+```
+ 
+```{r, fig.cap = " Residualplot över medeltemperatur och år"}
+lm_Model = lm(globe ~ year, data=df)
+  Model.res = resid(lm_Model)
+ 
+  plot(df$year, Model.res, ylab="Residual", xlab="År") +
+  abline(0, 0)
+```
+ 
+
+```{r, fig.cap = " Normalfördelningsplot över residualen för medeltemperatur och år "}
+qqnorm(lm_Model$residuals)
+qqline(lm_Model$residuals)
+```
+ 
+Enligt figur 1 ser sambandet mellan tid och global medeltemperatur ej linjär ut.
+
+Om vi låter $Y_i$ ha en fördelning som beror på en förklarande variabel $X_i$ där $x_i$ ej är en slumpvariabel, talar vi om regression. Vi kollar på en klass av modeller där observationerna är oberoende men inte lika fördelade. Modellen för linjär regressionsanalys är $Y_i = \alpha +\beta x_i + \varepsilon_i$ Där $\varepsilon_1 , \varepsilon_2, ..... \varepsilon_n$ är oberoende men lika fördelade med väntevärde 0 och varians är $\sigma^{2}$, då ett krav för linjär regresion är att variansen ska vara konstans.Oftast antar man att $\varepsilon_i$ approximativt är normalfördelat.
+ 
+I figur 2 plottas en scatterplot fast med en linjär regressionslinje till skillnad från figur 1. Vi kan i figur 2 observera att medeltemperaturen har stigit från ca -0.5 $^\circ$C till 0.15 $^\circ$C
+ 
+I Figur 3 som är en residualplot kan vi konstatera att bandet av residualer kring 0 varierar medans spridningen inom bandet har ingen stor varians. Från figur 4 vilket är normalfördelningsplotten kan vi dra slutsatsen att residuale för global medeltemperatur och år är normalfördelad.
+ 
+Slutsatsen blir att i figur 3 kan se att variansen är konstant och i figur 4 att residualerna är normalfördelade, därav uppfylls dessa två krav för linjär regression. Men eftersom relationsvariabeln beror på den förklarande variabeln uppfylls inte kravet för oberoende. Därav uppfylls inte kravet för linjär regression.
+
+# Uppgift 2
+ 
+För att få modellen att passa bättre kan man dela in hela mätperioden i delperioder. I denna uppgift ska vi dela in datamaterial i tre separata tidsperioder. 1880-1929, 1930-1969 och 1979-2007.
+ 
+```{r}
+df_1 <- subset(df, year >= 1880 & year <= 1929)
+df_2 <- subset(df, year >= 1930 & year <= 1969)
+df_3 <- subset(df, year >= 1979 & year <= 2007)
+```
+ 
+```{r, message=FALSE, fig.cap = " Linjär regression för temperatur över tid under perioden 1880-1929 "}
+ggplot(data = df_1, aes(x = year, y = globe)) +
+  geom_point() +
+  geom_line() +
+  geom_smooth(method = "lm", se = FALSE)
+```
+ 
+```{r, fig.cap = " Residualplot över medeltemperatur och år under perioden 1880-1929"}
+lm_Model_1 = lm(globe ~ year, data=df_1)
+  Model.res = resid(lm_Model_1)
+ 
+  plot(df_1$year, Model.res, ylab="Residual", xlab="År") +
+  abline(0, 0)
+```
+ 
+```{r, fig.cap = " Normalfördelningsplot över residualen för medeltemperatur och år under perioden 1880-1929 "}
+qqnorm(lm_Model_1$residuals)
+qqline(lm_Model_1$residuals)
+```
+ 
+# --------------
+ 
+```{r, message=FALSE, fig.cap = " Linjär regression för temperatur över tid under perioden 1930-1969 "}
+ggplot(data = df_2, aes(x = year, y = globe)) +
+  geom_point() +
+  geom_line() +
+  geom_smooth(method = "lm", se = FALSE)
+```
+ 
+```{r, fig.cap = " Residualplot över medeltemperatur och år under perioden 1930-1969 "}
+lm_Model_2 = lm(globe ~ year, data=df_2)
+  Model.res = resid(lm_Model_2)
+ 
+  plot(df_2$year, Model.res, ylab="Residual", xlab="År") +
+  abline(0, 0)
+```
+ 
+```{r, fig.cap = " Normalfördelningsplot över residualen för medeltemperatur och år under perioden 1930-1969 "}
+qqnorm(lm_Model_2$residuals)
+qqline(lm_Model_2$residuals)
+```
+ 
+# --------------
+ 
+```{r, message=FALSE, fig.cap = " Linjär regression för temperatur över tid under perioden 1979-2007 "}
+ggplot(data = df_3, aes(x = year, y = globe)) +
+  geom_point() +
+  geom_line() +
+  geom_smooth(method = "lm", se = FALSE)
+```
+ 
+```{r, fig.cap = " Residualplot över medeltemperatur och år under perioden 1979-2007 "}
+lm_Model_3 = lm(globe ~ year, data=df_3)
+  Model.res = resid(lm_Model_3)
+ 
+  plot(df_3$year, Model.res, ylab="Residual", xlab="År") +
+  abline(0, 0)
+```
+ 
+```{r, fig.cap = " Normalfördelningsplot över residualen för medeltemperatur och år under perioden 1979-2007 "}
+qqnorm(lm_Model_3$residuals)
+qqline(lm_Model_3$residuals)
+```
+ 
+```{r}
+ 
+summary(lm_Model_1)
+summary(lm_Model_2)
+summary(lm_Model_3)
+ 
+```
+ 
+Tidsperioden 1880-1929 ser vi i diagram 7 inte uppfyller kraven för linjär regression eftersom residualen är längre ifrån normalfördelningen än den hela tidsperioden från uppgift 1.
+ 
+För tisdperioden 1930-1969 ser vi i diagram 9 att data inte heller uppfyller kraven för linjär regression bättre än perioden från uppgift 1 eftersom residualernas varians är för avvikande, alltså att variansen för residualerna inte är konstant.
+ 
+För tidsperioden från 1970-2007 ser vi i diagram 11, 12 och 13 att förutsättningarna för att uppfylla kraven för linjär regression är uppfyllda bättre än den hela tidsperioden från uppgift 1.
+ 
+I figur 5 är punktskattningarna $\alpha = 0.2026480$ och $\beta == -0.0003018$. Där $\beta$ är lutningskoefficienten och det som testas är den skattadelinjen.
+ 
+I figur 8 är punktskattningarna $\alpha = 1.0009988$ och $\beta = -0.0005744$.
+ 
+I figur 11 är punktskattningarna $\alpha = -33.525836$ och $\beta = 0.016935$.
+ 
+Nu ska vi testa om påståendet "“Växthuseffekten är inget problem, det finns ingen bevisad trend mot ett varmare klimat" är korrekt. Vi behöver alltså bara undersöka om medeltemperaturen ökar eller ej ökar under perioden 1979-2007, vilket innebär att vi vill ha ett ensidigt konfidensintervall.
+ 
+Kopplingen mellan oljedirektörens påstående och vår modell över den sökta perioden är frågan om globala medeltemperaturen har ökat linjärt eller om den inte har det.
+ 
+Nollhypotesen är att globala medeltemperaturen inte ökar dvs. $H_0: \beta = 0$.
+ 
+Alternativhypotesen är att globala medeltemperaturen ökar dvs. $H_1: \beta > 0$.
+ 
+Eftersom Pearsons korrelationstest är mer lämplig för slumpvariabler och i detta fal är "år" inte en slumpvariabel blir Spearmans korrelationstest mer lämplig eftersom Spearman kollar ordningssambandet mellan den förklarande variabeln och relations variabeln.
+ 
+```{r}
+cor.test(df_3$year, df_3$globe, alternative = "greater", method = "pearson", conf.level = 0.05)
+```
+ 
+Korrelationstestet tyder på en linjär ökning i medeltemperatur under perioden 1979-2007. Alltså kan vi bevisa alternativhypotesen och förkasta nollhypotesen med 5% signifikansnivå och därmed är direktörens påstående motbevisad.
+ 
+# Uppgift 3
+ 
+En grupp fysiker har en hypotes att norra halvklotet påverkar klimatet på södra halvklotet med ett års fördröjning. Denna hypotes kommer undersökas genom att beräkna korrelationskoefficinten mellan medeltemperaturen på norra halvklotet ett visst år och medeltemperaturen på södra året efter. Den uppskattade korrelationskoefficienten blir 0.822 och p-värdet blir lika med noll.
+
+```{r, fig.cap="Scatterplott över temperaturen på norra halvklotet respektive södra halvklotet ett år senare, södra halvklotets mätvärden i rött"}
+ggplot(data = df, aes(x = year)) +
+  geom_point(aes(y = nh)) +
+  geom_point(aes(y = shnext, color = "red")) +
+  geom_smooth(aes(y = nh)) +
+  geom_smooth(aes(y = shnext, color = "red"))
+```
+ 
+```{r}
+cor.test(df$nh, df$shnext, alternative = "two.sided", method = "pearson", conf.level = 0.95)
+```
+ 
+Vi ser från vårt test att fysikerna har räknat rätt med både p-värdet och korrelationskoefficienten.
+ 
+Den höga korrelationen påverkas mer troligtvis av växthuseffekten, som både påverkar den norra och det södra halvklotets medeltemperatur. Slutsatsen som kan dras blir att temperaturen på det norra halvklotet inte skulle påverka medeltemperaturen på södra halvklotet. Båda halvkloten påverkas av samma effekt, växthuseffekten.
+
+Vi gör var sitt Pearson -respektive Spearman test med nollhypotesen att korrelationen mellan tempreaturen på Norra Halvklotet och Södra Halvklotet året efter är lika med 0 och alternativhypotesen är att korrelationen är skiljd från 0. Det vill säga $H_0: \mu_1 - \mu_2 = 0$. $H_1: \mu_1 - \mu_2 \neq 0$.
+ 
+```{r}
+df_next <- subset(df, year <= 2007 & year >= 1982)
+ 
+cor.test(df_next$nh, df_next$shnext, method = "pearson", conf.level = 0.9)
+ 
+cor.test(df_next$nh, df_next$shnext, method = "spearman", conf.level = 0.9)
+```
+ 
+Vi ser att både Pearsons och Spearmans korrelationskoefficienter visar på korrelation mellan de två variablerna. Slutsatsen är att vi förkastar nollhypotesen.
