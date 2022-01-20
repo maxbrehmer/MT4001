@@ -189,15 +189,17 @@ cor.test(df$nh, df$shnext, alternative = "two.sided", method = "pearson", conf.l
 Vi ser från vårt test att fysikerna har räknat rätt med både p-värdet och korrelationskoefficienten.
  
 Den höga korrelationen påverkas mer troligtvis av växthuseffekten, som både påverkar den norra och det södra halvklotets medeltemperatur. Slutsatsen som kan dras blir att temperaturen på det norra halvklotet inte skulle påverka medeltemperaturen på södra halvklotet. Båda halvkloten påverkas av samma effekt, växthuseffekten.
-
-Vi gör var sitt Pearson -respektive Spearman test med nollhypotesen att korrelationen mellan tempreaturen på Norra Halvklotet och Södra Halvklotet året efter är lika med 0 och alternativhypotesen är att korrelationen är skiljd från 0. Det vill säga $H_0: \mu_1 - \mu_2 = 0$. $H_1: \mu_1 - \mu_2 \neq 0$.
  
 ```{r}
 df_next <- subset(df, year <= 2007 & year >= 1982)
  
-cor.test(df_next$nh, df_next$shnext, method = "pearson", conf.level = 0.9)
+cor.test(df_next$nh, df_next$shnext, alternative = "two.sided", method = "pearson", conf.level = 0.90)
  
-cor.test(df_next$nh, df_next$shnext, method = "spearman", conf.level = 0.9)
+cor.test(df_next$nh, df_next$shnext, alternative = "two.sided", method = "spearman", conf.level = 0.90)
 ```
- 
-Vi ser att både Pearsons och Spearmans korrelationskoefficienter visar på korrelation mellan de två variablerna. Slutsatsen är att vi förkastar nollhypotesen.
+
+```{r, fig.cap="Scatterplot över medeltemperatur mellan halvkloten"}
+plot(df_next$nh, df_next$shnext, xlab="Norra halvklotets medeltemperatur", ylab="Södra halvklotets medeltemperatur året efter")
+```
+
+Enligt figur 15 ser vi att både Pearsons och Spearmans korrelationskoefficienter ej korrelerar.
